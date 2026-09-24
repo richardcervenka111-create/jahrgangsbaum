@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="gsw">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1F4D2B">
+<title>Dis Jahrgangsbaum</title>
+<meta name="description" content="Gib di Jahrgang i und lueg, wele Baum d Stadt Bärn im glyche Jahr gsetzt het. Mit Charte und Plakat zum Teile. Date: Baumkataster Stadt Bern.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#F2F5EE; --surface:#FFFFFF; --surface-2:#E4EBDD; --line:#C3D1B8;
+  --ink:#14211A; --ink-2:#3C4F42; --muted:#6C7F70;
+  --green:#1F4D2B; --green-2:#3E7A4A; --leaf:#8CC63F; --bark:#6B4A2B; --gold:#E3B505;
+  --shadow:0 12px 34px rgba(20,33,26,.12);
+  --display:"Fraunces",Georgia,"Times New Roman",serif; --body:"Atkinson Hyperlegible","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){color-scheme:dark;
+    --bg:#0F1712; --surface:#17221B; --surface-2:#1F2E24; --line:#33483A;
+    --ink:#EEF4EF; --ink-2:#C6D3C9; --muted:#8FA396;
+    --green:#5CB271; --green-2:#8CC63F; --leaf:#B6E36B; --bark:#C79A6A;
+    --shadow:0 12px 34px rgba(0,0,0,.5)}
+}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#0F1712; --surface:#17221B; --surface-2:#1F2E24; --line:#33483A;
+  --ink:#EEF4EF; --ink-2:#C6D3C9; --muted:#8FA396;
+  --green:#5CB271; --green-2:#8CC63F; --leaf:#B6E36B; --bark:#C79A6A;
+  --shadow:0 12px 34px rgba(0,0,0,.5)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.5 var(--body)}
+.wrap{max-width:820px;margin:0 auto;padding-inline:16px;padding-block:20px 64px;display:grid;gap:26px}
+h1,h2{margin:0;line-height:1.05;text-wrap:balance;font-family:var(--display)}
+h1{font-size:clamp(40px,9vw,72px);font-weight:600;letter-spacing:-.02em;font-variation-settings:"opsz" 144}
+h1 em{font-style:italic;color:var(--green)}
+p{margin:0;max-width:60ch}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.small{font-size:15px;color:var(--muted)}
+.hero{display:grid;gap:14px}
+.hero p.lede{font-size:20px;color:var(--ink-2)}
+.ask{display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+.ask label{font-family:var(--display);font-size:26px;font-weight:500}
+.ask .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ask input{font:700 40px/1 var(--display);width:9ch;max-width:100%;padding:8px 14px;border:2px solid var(--line);border-radius:14px;background:var(--surface-2);color:var(--ink);font-variant-numeric:tabular-nums}
+.btn{border:0;border-radius:14px;padding:14px 22px;font-weight:700;font-size:18px;min-height:52px;background:var(--surface-2);color:var(--ink)}
+.btn.primary{background:var(--green);color:#fff}
+.btn.ghost{background:transparent;border:2px solid var(--line)}
+.result{display:grid;gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;display:grid;gap:12px;box-shadow:var(--shadow)}
+.card .kicker{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.card h2{font-size:clamp(28px,6vw,44px);font-weight:600}
+.card h2 span{color:var(--green)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.fact{background:var(--surface-2);border-radius:14px;padding:12px 14px;display:grid;gap:2px}
+.fact b{font-family:var(--display);font-size:28px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.fact span{font-size:14px;color:var(--ink-2)}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+a.btn{text-decoration:none;display:inline-grid;place-items:center}
+.posterwrap{background:var(--surface-2);border-radius:20px;padding:14px;display:grid;gap:10px}
+.posterwrap svg{width:100%;height:auto;display:block;border-radius:12px;box-shadow:var(--shadow)}
+.state{font-size:15px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:700;font-size:15px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+footer{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;display:grid;gap:6px}
+footer a{color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <h1>Dis <em>Jahrgangsbaum</em></h1>
+    <p class="lede">D Stadt Bärn pflanzt jedes Jahr Böim. Eine dervo isch im glyche Jahr uf d Wält cho wie du. Lueg, wär.</p>
+    <p class="small">Hochdeutsch: Gib dein Geburtsjahr ein und finde einen Stadtbaum, der im selben Jahr gepflanzt wurde.</p>
+  </section>
+
+  <section class="ask">
+    <label for="year">Wenn bisch uf d Wält cho?</label>
+    <div class="row">
+      <input type="number" id="year" inputmode="numeric" min="1600" max="2026" placeholder="1987" aria-describedby="yearHint">
+      <button type="button" class="btn primary" id="go">Zeig mer mi Baum</button>
+      <button type="button" class="btn ghost" id="other" hidden>Es anders</button>
+    </div>
+    <div class="state" id="yearHint"></div>
+  </section>
+
+  <section class="result" id="result" hidden>
+    <article class="card">
+      <div class="kicker" id="r_kicker"></div>
+      <h2 id="r_title"></h2>
+      <p id="r_text"></p>
+      <div class="facts">
+        <div class="fact"><b id="f_age"></b><span>Jahr aut, grad wie du</span></div>
+        <div class="fact"><b id="f_count"></b><span id="f_count_l"></span></div>
+        <div class="fact"><b id="f_species"></b><span>vo däre Art stöh i dr Stadt</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" id="mapLink" href="#" target="_blank" rel="noopener">Uf dr Charte zeige</a>
+        <button type="button" class="btn ghost" id="copyBtn">Text kopiere</button>
+        <button type="button" class="btn primary" id="dlBtn">Plakat abelade (PNG)</button>
+      </div>
+    </article>
+    <div class="posterwrap">
+      <svg id="poster" viewBox="0 0 1080 1350" role="img" aria-label="Plakat"></svg>
+      <p class="small">Plakat 1080 × 1350, passt uf Instagram oder a d Chuchiwand. Baumdate: Stadt Bern, Baumkataster (OGD).</p>
+    </div>
+  </section>
+
+  <footer>
+    <p id="foot_src">Date: Baumkataster der Stadt Bern (Open Government Data). Standorte auf einige Meter genau; Pflanzjahr wie im Kataster erfasst. Nüt wird gschickt, nüt gspeicheret.</p>
+    <p>Frei (CC0) · <a href="https://github.com/richardcervenka111-create/jahrgangsbaum" target="_blank" rel="noopener">GitHub</a> · Gschwüsterti: <a href="https://richardcervenka111-create.github.io/baern-hilft/" target="_blank" rel="noopener">Bärn hilft</a></p>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id);};
+var SAMPLE={source:'Beispiel (Platzhalter, bis data/trees.json da ist)', fetched:'', fields:{species:['Winterlinde','Spitzahorn','Rotbuche','Platane','Rosskastanie','Stieleiche'], latin:['Tilia cordata','Acer platanoides','Fagus sylvatica','Platanus × hispanica','Aesculus hippocastanum','Quercus robur'], street:['Länggassstrasse','Breitenrainplatz','Lorrainestrasse','Bundesgasse','Kirchenfeldstrasse','Aarstrasse'], quarter:['Länggasse','Breitenrain','Lorraine','Innere Stadt','Kirchenfeld','Marzili']},
+ trees:[[1987,0,0,0,0,46.9553,7.4327],[1987,1,1,1,1,46.9601,7.4531],[1990,2,2,2,2,46.9587,7.4441],[1975,3,3,3,3,46.9469,7.4436],[2001,4,4,4,4,46.9426,7.4493],[1965,5,5,5,5,46.9445,7.4470],[1995,0,0,1,1,46.9612,7.4508],[2010,1,1,0,0,46.9542,7.4300]]};
+var D=null, isSample=false, current=null, pool=[], seed=0;
+var NOW=new Date().getFullYear();
+
+function load(){
+  if(!window.fetch){ use(SAMPLE,true); return; }
+  fetch('data/trees.json',{cache:'default'}).then(function(r){ return r.ok? r.json():null; }).then(function(d){ if(d&&d.trees&&d.trees.length) use(d,false); else use(SAMPLE,true); }).catch(function(){ use(SAMPLE,true); });
+}
+function use(d,sample){ D=d; isSample=sample; var ys=D.trees.map(function(t){return t[0];}); var mn=Math.min.apply(null,ys), mx=Math.max.apply(null,ys);
+  $('year').min=mn; $('year').max=mx; $('yearHint').textContent=(sample?'Beispieldate. ':'')+D.trees.length.toLocaleString('de-CH')+' Böim im Kataster, gsetzt zwüsche '+mn+' und '+mx+'.'; if(sample) $('foot_src').textContent='Beispieldate, bis data/trees.json us em Baumkataster vorhande isch. Nüt wird gschickt, nüt gspeicheret.'; }
+
+function article(species){ var s=(species||'').toLowerCase(); if(/(linde|eiche|buche|birke|platane|kastanie|erle|esche|ulme|weide|kiefer|föhre|fichte|tanne|lärche|eibe|pappel|kirsche|magnolie|robinie|hainbuche|zeder|zypresse|akazie|mehlbeere|elsbeere|felsenbirne|blüte)$/.test(s)||s.endsWith('e')) return 'e '; if(/(baum|ahorn|nussbaum|ginkgo|apfel|birnbaum|walnuss|amberbaum|tulpenbaum|trompetenbaum|götterbaum|schnurbaum|maulbeer)/.test(s)) return 'en '; return 'e '; }
+function pickPool(y){ var exact=D.trees.filter(function(t){return t[0]===y;}); if(exact.length) return {list:exact, delta:0};
+  for(var d=1; d<=15; d++){ var near=D.trees.filter(function(t){return Math.abs(t[0]-y)===d;}); if(near.length) return {list:near, delta:d}; } return {list:[], delta:null}; }
+function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+
+function show(y, again){
+  if(!D) return; var y0=parseInt(y,10); if(!y0||y0<1000){ $('yearHint').textContent='Gib es Jahr i, zum Bischpil 1987.'; return; }
+  var p=pickPool(y0); if(!p.list.length){ $('yearHint').textContent='Für '+y0+' het d Stadt kei Baum im Kataster. Probier es anders Jahr.'; return; }
+  if(!again){ pool=p.list; seed=y0*7919+new Date().getDate(); }
+  var t=pool[Math.floor(rnd()*pool.length)]; current={t:t, y:y0, delta:p.delta, n:p.list.length};
+  var sp=D.fields.species[t[1]]||'Baum', la=D.fields.latin[t[2]]||'', st=D.fields.street[t[3]]||'', qu=D.fields.quarter[t[4]]||'';
+  var age=NOW-t[0]; var where=[st,qu].filter(Boolean).join(', ');
+  $('r_kicker').textContent=(isSample?'Beispiel · ':'')+(p.delta? 'Kei Baum vo '+y0+' im Kataster, drum eine vo '+t[0]+':' : 'Gsetzt '+t[0]+', wie du:');
+  var h=$('r_title'); h.textContent=''; h.appendChild(document.createTextNode('Ich bi '+article(sp))); var s=document.createElement('span'); s.textContent=sp; h.appendChild(s); h.appendChild(document.createTextNode(' vo '+t[0]+(qu?', '+qu:'')+'.'));
+  $('r_text').textContent=(la?la+'. ':'')+(where?'Dä Baum steit a dr '+where+'. ':'')+'Är het '+age+' Winter überstande'+(age>=50?', vor dir isch er scho da gsi, wo d Zytglogge no ohni Touriste war.':age>=25?', und wachst no immer.':', und isch no jung.');
+  $('f_age').textContent=age; $('f_count').textContent=p.list.length; $('f_count_l').textContent='Böim het d Stadt '+t[0]+' gsetzt';
+  var sameSp=D.trees.filter(function(x){return x[1]===t[1];}).length; $('f_species').textContent=sameSp.toLocaleString('de-CH');
+  $('mapLink').href='https://www.openstreetmap.org/?mlat='+t[5]+'&mlon='+t[6]+'#map=18/'+t[5]+'/'+t[6];
+  drawPoster(sp,la,t[0],qu||st,age); $('result').hidden=false; $('other').hidden=pool.length<2; $('yearHint').textContent=pool.length>1?'1 vo '+pool.length+' Böim vo '+t[0]+'. «Es anders» zeigt der no eine.':'';
+  $('result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function esc(s){ return String(s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];}); }
+function fit(s,max){ s=String(s); return s.length>max? s.slice(0,max-1)+'…' : s; }
+function drawPoster(sp,la,year,place,age){
+  var svg=$('poster'); var hue=(year*37)%360; var c1='hsl('+hue+',35%,22%)', c2='hsl('+((hue+40)%360)+',45%,34%)';
+  var rings=''; for(var i=0;i<Math.min(age,90);i++){ var r=120+i*5.2+Math.sin(i*1.7)*2.5; rings+='<circle cx="540" cy="560" r="'+r.toFixed(1)+'" fill="none" stroke="rgba(255,255,255,'+(i%5===0?0.22:0.09)+')" stroke-width="'+(i%5===0?2.2:1.2)+'"/>'; }
+  var art=article(sp).trim();
+  svg.innerHTML='<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+c1+'"/><stop offset="1" stop-color="'+c2+'"/></linearGradient></defs>'+
+   '<rect width="1080" height="1350" fill="url(#g)"/>'+rings+
+   '<circle cx="540" cy="560" r="14" fill="#F2F5EE"/>'+
+   '<text x="72" y="120" font-family="Atkinson Hyperlegible, Arial, sans-serif" font-size="30" letter-spacing="6" fill="rgba(255,255,255,.75)">MIS JAHRGANGSBAUM · BÄRN</text>'+
+   '<text x="72" y="1040" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="64" fill="#F2F5EE">Ich bi '+esc(art)+'</text>'+
+   '<text x="72" y="1130" font-family="Fraunces, Georgia, serif" font-weight="700" font-size="'+(sp.length>14?72:96)+'" fill="#F2F5EE">'+esc(fit(sp,22))+'</text>'+
+   '<text x="72" y="1210" font-family="Fraunces, Georgia, serif" font-size="56" fill="#F2F5EE">vo '+year+(place?', '+esc(fit(place,22)):'')+'</text>'+
+   '<text x="72" y="1280" font-family="Atkinson Hyperlegible, Arial, sans-serif" font-size="26" fill="rgba(255,255,255,.7)">'+esc(la)+(la?' · ':'')+age+' Jahr · Baumkataster Stadt Bern · jahrgangsbaum</text>';
+}
+function download(){
+  var svg=$('poster'); var xml=new XMLSerializer().serializeToString(svg); var blob=new Blob([xml],{type:'image/svg+xml;charset=utf-8'}); var url=URL.createObjectURL(blob);
+  var img=new Image(); img.onload=function(){ var c=document.createElement('canvas'); c.width=1080; c.height=1350; var ctx=c.getContext('2d'); ctx.drawImage(img,0,0); URL.revokeObjectURL(url);
+    try{ var a=document.createElement('a'); a.download='jahrgangsbaum-'+(current?current.t[0]:'')+'.png'; a.href=c.toDataURL('image/png'); document.body.appendChild(a); a.click(); a.remove(); }catch(e){ toast('Abelade het nid klappet. Screenshot mache.'); } };
+  img.onerror=function(){ toast('Abelade het nid klappet. Screenshot mache.'); }; img.src=url;
+}
+var toastTimer; function toast(m){ var tt=$('toast'); tt.textContent=m; tt.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(function(){ tt.classList.remove('show'); },2000); }
+$('go').addEventListener('click', function(){ show($('year').value,false); });
+$('year').addEventListener('keydown', function(e){ if(e.key==='Enter') show($('year').value,false); });
+$('other').addEventListener('click', function(){ show($('year').value,true); });
+$('dlBtn').addEventListener('click', download);
+$('copyBtn').addEventListener('click', function(){ if(!current) return; var t=current.t; var txt=$('r_title').textContent+' '+$('r_text').textContent+' '+location.href.split('#')[0];
+  var done=function(){ toast('Kopiert'); }; try{ navigator.clipboard.writeText(txt).then(done, function(){ toast('Kopiere het nid klappet'); }); }catch(e){ toast('Kopiere het nid klappet'); } });
+load();
+})();
+</script>
+</body>
+</html>
