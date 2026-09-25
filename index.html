@@ -106,12 +106,12 @@ footer a{color:var(--ink-2)}
     </article>
     <div class="posterwrap">
       <svg id="poster" viewBox="0 0 1080 1350" role="img" aria-label="Plakat"></svg>
-      <p class="small">Plakat 1080 × 1350, passt uf Instagram oder a d Chuchiwand. Baumdate: Stadt Bern, Baumkataster (OGD).</p>
+      <p class="small">Plakat 1080 × 1350, passt uf Instagram oder a d Chuchiwand. Quartier isch us dr Lag abgleitet, öppe. Quelle: Geodaten Stadt Bern.</p>
     </div>
   </section>
 
   <footer>
-    <p id="foot_src">Date: Baumkataster der Stadt Bern (Open Government Data). Standorte auf einige Meter genau; Pflanzjahr wie im Kataster erfasst. Nüt wird gschickt, nüt gspeicheret.</p>
+    <p id="foot_src">Quelle: Geodaten Stadt Bern (Baumkataster, Stadtgrün Bern, Stand 21.09.2026). Lage ohne Gewähr, Pflanzjahr wie im Kataster erfasst (bei alten Bäumen geschätzt), Quartier aus der Lage abgeleitet. Nüt wird gschickt, nüt gspeicheret.</p>
     <p>Frei (CC0) · <a href="https://github.com/richardcervenka111-create/jahrgangsbaum" target="_blank" rel="noopener">GitHub</a> · Gschwüsterti: <a href="https://richardcervenka111-create.github.io/baern-hilft/" target="_blank" rel="noopener">Bärn hilft</a></p>
   </footer>
 </div>
@@ -144,10 +144,11 @@ function show(y, again){
   if(!again){ pool=p.list; seed=y0*7919+new Date().getDate(); }
   var t=pool[Math.floor(rnd()*pool.length)]; current={t:t, y:y0, delta:p.delta, n:p.list.length};
   var sp=D.fields.species[t[1]]||'Baum', la=D.fields.latin[t[2]]||'', st=D.fields.street[t[3]]||'', qu=D.fields.quarter[t[4]]||'';
-  var age=NOW-t[0]; var where=[st,qu].filter(Boolean).join(', ');
+  var age=NOW-t[0]; var where= st ? 'a dr '+st+(qu?', '+qu:'') : (qu ? 'öppe im Quartier '+qu : '');
+  var roundY=[1905,1925,1945,1965,1985].indexOf(t[0])>=0;
   $('r_kicker').textContent=(isSample?'Beispiel · ':'')+(p.delta? 'Kei Baum vo '+y0+' im Kataster, drum eine vo '+t[0]+':' : 'Gsetzt '+t[0]+', wie du:');
   var h=$('r_title'); h.textContent=''; h.appendChild(document.createTextNode('Ich bi '+article(sp))); var s=document.createElement('span'); s.textContent=sp; h.appendChild(s); h.appendChild(document.createTextNode(' vo '+t[0]+(qu?', '+qu:'')+'.'));
-  $('r_text').textContent=(la?la+'. ':'')+(where?'Dä Baum steit a dr '+where+'. ':'')+'Är het '+age+' Winter überstande'+(age>=50?', vor dir isch er scho da gsi, wo d Zytglogge no ohni Touriste war.':age>=25?', und wachst no immer.':', und isch no jung.');
+  $('r_text').textContent=(la?la+'. ':'')+(where?'Dä Baum steit '+where+'. ':'')+(roundY?'Bi so alte Böim isch ds Pflanzjahr im Kataster gschätzt, drum hei viu Böim ds glyche. ':'')+'Är het '+age+' Winter überstande'+(age>=50?', vor dir isch er scho da gsi, wo d Zytglogge no ohni Touriste war.':age>=25?', und wachst no immer.':', und isch no jung.');
   $('f_age').textContent=age; $('f_count').textContent=p.list.length; $('f_count_l').textContent='Böim het d Stadt '+t[0]+' gsetzt';
   var sameSp=D.trees.filter(function(x){return x[1]===t[1];}).length; $('f_species').textContent=sameSp.toLocaleString('de-CH');
   $('mapLink').href='https://www.openstreetmap.org/?mlat='+t[5]+'&mlon='+t[6]+'#map=18/'+t[5]+'/'+t[6];
@@ -167,7 +168,7 @@ function drawPoster(sp,la,year,place,age){
    '<text x="72" y="1040" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="64" fill="#F2F5EE">Ich bi '+esc(art)+'</text>'+
    '<text x="72" y="1130" font-family="Fraunces, Georgia, serif" font-weight="700" font-size="'+(sp.length>14?72:96)+'" fill="#F2F5EE">'+esc(fit(sp,22))+'</text>'+
    '<text x="72" y="1210" font-family="Fraunces, Georgia, serif" font-size="56" fill="#F2F5EE">vo '+year+(place?', '+esc(fit(place,22)):'')+'</text>'+
-   '<text x="72" y="1280" font-family="Atkinson Hyperlegible, Arial, sans-serif" font-size="26" fill="rgba(255,255,255,.7)">'+esc(la)+(la?' · ':'')+age+' Jahr · Baumkataster Stadt Bern · jahrgangsbaum</text>';
+   '<text x="72" y="1280" font-family="Atkinson Hyperlegible, Arial, sans-serif" font-size="26" fill="rgba(255,255,255,.7)">'+esc(la)+(la?' · ':'')+age+' Jahr · Quelle: Geodaten Stadt Bern · jahrgangsbaum</text>';
 }
 function download(){
   var svg=$('poster'); var xml=new XMLSerializer().serializeToString(svg); var blob=new Blob([xml],{type:'image/svg+xml;charset=utf-8'}); var url=URL.createObjectURL(blob);
