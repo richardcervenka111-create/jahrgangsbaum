@@ -33,7 +33,10 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manip
 ::selection{background:var(--acc);color:var(--acc-ink)}
 
 /* header */
-.k-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:8px 4px}
+.k-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:8px 6px}
+.k-top.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--bg);margin-inline:-16px;padding-inline:16px;transition:box-shadow .2s var(--ease)}
+.k-top.sticky.scrolled{box-shadow:0 1px 0 var(--line),0 8px 24px rgba(0,0,0,.06)}
+@media print{.k-top.sticky{position:static;box-shadow:none}}
 .k-brand{display:flex;align-items:center;gap:12px;min-width:0}
 .k-brand .k-logo{flex:none;width:44px;height:44px;border-radius:12px;box-shadow:var(--shadow-sm)}
 .k-brand h1{font-size:clamp(22px,4.6vw,28px);font-weight:800}
@@ -43,6 +46,7 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manip
 .k-seg button:hover{color:var(--ink)}
 .k-seg button:active{transform:scale(.94)}
 .k-seg button[aria-pressed="true"],.k-seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+.k-seg button:focus-visible{outline-offset:1px}
 
 /* buttons */
 .k-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:var(--r);padding:10px 16px;font-weight:700;font-size:16px;min-height:var(--tap);text-decoration:none;transition:transform .14s var(--spring),background .18s var(--ease),border-color .18s,box-shadow .18s,color .18s;will-change:transform}
@@ -166,7 +170,7 @@ footer a{color:var(--ink-2)}
 <body>
 <div class="k-splash" aria-hidden="true"><svg class="" width="88" height="88" viewBox="0 0 48 48" role="img" aria-label="Dis Jahrgangsbaum Logo"><defs><linearGradient id="kgjahrgangsbaum" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f4d2b"/><stop offset="1" stop-color="#15341d"/></linearGradient></defs><rect width="48" height="48" rx="13" fill="url(#kgjahrgangsbaum)"/><g class="g" transform="translate(6 6) scale(1.5)" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="5.6"/><circle cx="12" cy="12" r="8.6"/></g></svg><b>Dis Jahrgangsbaum</b></div>
 <div class="wrap">
-  <header class="k-top"><div class="k-brand"><svg class="k-logo" width="44" height="44" viewBox="0 0 48 48" role="img" aria-label="Dis Jahrgangsbaum Logo"><defs><linearGradient id="kgjahrgangsbaum" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f4d2b"/><stop offset="1" stop-color="#15341d"/></linearGradient></defs><rect width="48" height="48" rx="13" fill="url(#kgjahrgangsbaum)"/><g class="" transform="translate(6 6) scale(1.5)" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="5.6"/><circle cx="12" cy="12" r="8.6"/></g></svg><div><small style="font-weight:800;color:var(--ink-2)">Jahrgangsbaum</small><small>Baumkataster Stadt Bärn · Bärn Kit</small></div></div></header>
+  <header class="k-top sticky"><div class="k-brand"><svg class="k-logo" width="44" height="44" viewBox="0 0 48 48" role="img" aria-label="Dis Jahrgangsbaum Logo"><defs><linearGradient id="kgjahrgangsbaum" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f4d2b"/><stop offset="1" stop-color="#15341d"/></linearGradient></defs><rect width="48" height="48" rx="13" fill="url(#kgjahrgangsbaum)"/><g class="" transform="translate(6 6) scale(1.5)" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="5.6"/><circle cx="12" cy="12" r="8.6"/></g></svg><div><small style="font-weight:800;color:var(--ink-2)">Jahrgangsbaum</small><small>Baumkataster Stadt Bärn · Bärn Kit</small></div></div></header>
   <section class="hero">
     <h1>Dis <em>Jahrgangsbaum</em></h1>
     <p class="lede">D Stadt Bärn pflanzt jedes Jahr Böim. Eine dervo isch im glyche Jahr uf d Wält cho wie du. Lueg, wär.</p>
@@ -238,6 +242,10 @@ var tt,ttT; K.toast=function(m){ if(!tt){ tt=document.createElement('div'); tt.c
 K.stagger=function(root,max){ if(!root||reduced) return; var kids=root.children,n=Math.min(kids.length,max||14); for(var i=0;i<n;i++){ kids[i].style.setProperty('--i',i); kids[i].classList.add('k-in'); } };
 /* delegated haptics on primary buttons */
 document.addEventListener('pointerdown',function(e){ var b=e.target.closest&&e.target.closest('.k-btn.primary,.k-chip,.k-seg button'); if(b) K.tick(6); },{passive:true});
+/* language persistence for the kit switcher (.lang button[data-l]) */
+(function(){ var KEY='k-lang'; document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.lang button[data-l]'); if(b){ try{ localStorage.setItem(KEY,b.dataset.l); }catch(x){} } },true);
+  function restore(){ var v=null; try{ v=localStorage.getItem(KEY); }catch(x){} if(!v) return; var b=document.querySelector('.lang button[data-l="'+v+'"]'); if(b&&b.getAttribute('aria-pressed')!=='true') b.click(); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',restore); else restore(); })();
 /* sticky header shadow */
 var top=document.querySelector('.k-top.sticky'); if(top){ var on=false; window.addEventListener('scroll',function(){ var s=window.scrollY>8; if(s!==on){ on=s; top.classList.toggle('scrolled',s); } },{passive:true}); }
 })();
